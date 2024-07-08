@@ -30,14 +30,16 @@ public class Explosion : MonoBehaviour
     {
         if (gameObject != null)
         {
-            Collider[] gameColliders = gameObject.GetComponents<Collider>();
+            Collider[] colliders = gameObject.GetComponents<Collider>();
+
             List<Rigidbody> cube = new List<Rigidbody>();
 
-            foreach (var gameCollider in gameColliders)
+            foreach (var gameCollider in colliders)
             {
                 if (gameCollider.attachedRigidbody != null)
                     cube.Add(gameCollider.attachedRigidbody);
             }
+
             return cube;
         }
 
