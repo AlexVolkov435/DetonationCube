@@ -1,22 +1,32 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+
 using UnityEngine;
 
-public class Object : MonoBehaviour
+public class Spawn : MonoBehaviour
 {
+    [SerializeField] private Cube _cube;
     [SerializeField] private GameObject _object;
+
+    public event Action <List<Rigidbody>> ExplodeChangen;
 
     private int _maximumProbability = 100;
 
-    public event Action<GameObject> ExplodeChangen;
+    List<Rigidbody> cubes = new List<Rigidbody>();
 
-    GameObject currentGameObject;
-
-    private void OnMouseUpAsButton()
+    private void OnEnable()
     {
-        Spawn();
+        _cube.SpawnChangen += CreateCube;
     }
 
-    private void Spawn()
+    private void OnDisable()
+    {
+        _cube.SpawnChangen -= CreateCube;
+    }
+
+    private void CreateCube()
     {
         int startValueProbability = 0;
         int finishValueProbability = 101;
@@ -31,16 +41,26 @@ public class Object : MonoBehaviour
         {
             for (int i = 0; i < randomValues; i++)
             {
-                currentGameObject = Instantiate(_object, new Vector3(GenarationRandomValueX(), GenarationRandomValueY(), GenarationRandomValueZ()), Quaternion.identity);
-                Object—hanges(currentGameObject);
+                cubes.Add(Init().GetComponent<Rigidbody>());
+                _maximumProbability /= 2;
             }
         }
         else
         {
-            ExplodeChangen?.Invoke(currentGameObject);
+            ExplodeChangen?.Invoke(cubes);
             Destroy(gameObject);
         }
     }
+ 
+    private GameObject Init()
+    {
+        var currentGameObject = Instantiate(_object, new Vector3(GenarationRandomValueX(),
+        GenarationRandomValueY(), GenarationRandomValueZ()), Quaternion.identity);
+
+        _cube.Object—hanges(currentGameObject);
+
+        return currentGameObject;
+    }    
 
     private float GenarationRandomValueX()
     {
@@ -55,15 +75,5 @@ public class Object : MonoBehaviour
     private float GenarationRandomValueZ()
     {
         return transform.position.z + UnityEngine.Random.Range(-5f, 5f);
-    }
-
-    private void Object—hanges(GameObject gameObject)
-    {
-        gameObject.transform.localScale = new Vector3(transform.localScale.x / 2, transform.localScale.y / 2, transform.localScale.z / 2);
-        gameObject.GetComponent<Renderer>().material.color = new Color(UnityEngine.Random.Range(0, 1f), UnityEngine.Random.Range(0, 1f), UnityEngine.Random.Range(0, 1f));
-
-        _maximumProbability /= 2;
-
-        Debug.Log(_maximumProbability);
     }
 }

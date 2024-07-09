@@ -1,48 +1,32 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    [SerializeField] private Object _object;
+    [SerializeField] private Spawn _spawn;
 
     [SerializeField] private float _explosionRadius;
     [SerializeField] private float _explosionForce;
 
     private void OnEnable()
     {
-        _object.ExplodeChangen += Explode;
+        _spawn.ExplodeChangen += Explode;
     }
 
     private void OnDisable()
     {
-        _object.ExplodeChangen -= Explode;
+        _spawn.ExplodeChangen -= Explode;
     }
 
-    private void Explode(GameObject gameObject)
+    private void Explode(List<Rigidbody> cubes)
     {
-        foreach (Rigidbody explodableObject in GetObjects(gameObject))
+        foreach (Rigidbody explodableObject in cubes)
         {
-            explodableObject.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
-        }
-    }
-
-    private List<Rigidbody> GetObjects(GameObject gameObject)
-    {
-        if (gameObject != null)
-        {
-            Collider[] colliders = gameObject.GetComponents<Collider>();
-
-            List<Rigidbody> cube = new List<Rigidbody>();
-
-            foreach (var gameCollider in colliders)
+            if (explodableObject)
             {
-                if (gameCollider.attachedRigidbody != null)
-                    cube.Add(gameCollider.attachedRigidbody);
+                explodableObject.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
             }
-
-            return cube;
         }
-
-        return null;
     }
 }
