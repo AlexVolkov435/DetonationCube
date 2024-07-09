@@ -1,29 +1,21 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-
 using UnityEngine;
 
 public class Spawn : MonoBehaviour
 {
-    [SerializeField] private Cube _cube;
-    [SerializeField] private GameObject _object;
-
-    public event Action <List<Rigidbody>> ExplodeChangen;
+    [SerializeField] private GameObject _objectSpawn;
 
     private int _maximumProbability = 100;
 
-    List<Rigidbody> cubes = new List<Rigidbody>();
+    private List<Rigidbody> _cubes = new List<Rigidbody>();
 
-    private void OnEnable()
-    {
-        _cube.SpawnChangen += CreateCube;
-    }
+    public event Action<List<Rigidbody>> ExplodeChangen;
+    public event Action<GameObject> ObjectChangen;
 
-    private void OnDisable()
+    private void OnMouseUpAsButton()
     {
-        _cube.SpawnChangen -= CreateCube;
+        CreateCube();
     }
 
     private void CreateCube()
@@ -41,39 +33,48 @@ public class Spawn : MonoBehaviour
         {
             for (int i = 0; i < randomValues; i++)
             {
-                cubes.Add(Init().GetComponent<Rigidbody>());
+                _cubes.Add(Init().GetComponent<Rigidbody>());
                 _maximumProbability /= 2;
             }
         }
         else
         {
-            ExplodeChangen?.Invoke(cubes);
+            ExplodeChangen?.Invoke(_cubes);
             Destroy(gameObject);
         }
     }
- 
+
     private GameObject Init()
     {
-        var currentGameObject = Instantiate(_object, new Vector3(GenarationRandomValueX(),
+        var currentGameObject = Instantiate(_objectSpawn, new Vector3(GenarationRandomValueX(),
         GenarationRandomValueY(), GenarationRandomValueZ()), Quaternion.identity);
 
-        _cube.Object—hanges(currentGameObject);
-
+        ObjectChangen?.Invoke(currentGameObject);
+        
         return currentGameObject;
-    }    
+    }
 
     private float GenarationRandomValueX()
     {
-        return transform.position.x + UnityEngine.Random.Range(-5f, 5f);
+        float minValue = -5f;
+        float maxValue = 5f;
+
+        return transform.position.x + UnityEngine.Random.Range(minValue, maxValue);
     }
 
     private float GenarationRandomValueY()
     {
-        return transform.position.y - UnityEngine.Random.Range(-3f, -5f);
+        float minValue = -3f;
+        float maxValue = -5f;
+
+        return transform.position.y - UnityEngine.Random.Range(minValue, maxValue);
     }
 
     private float GenarationRandomValueZ()
     {
-        return transform.position.z + UnityEngine.Random.Range(-5f, 5f);
+        float minValue = 3f;
+        float maxValue = 5f;
+
+        return transform.position.z + UnityEngine.Random.Range(minValue, maxValue);
     }
 }
