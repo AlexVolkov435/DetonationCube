@@ -3,29 +3,14 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    [SerializeField] private Spawn _spawn;
-
     [SerializeField] private float _explosionRadius;
     [SerializeField] private float _explosionForce;
 
-    private void OnEnable()
+    public void Explode(List<Cube> cubes)
     {
-        _spawn.ExplodeChangen += Explode;
-    }
-
-    private void OnDisable()
-    {
-        _spawn.ExplodeChangen -= Explode;
-    }
-
-    private void Explode(List<Rigidbody> cubes)
-    {
-        foreach (Rigidbody explodableObject in cubes)
+        foreach (Cube explodableObject in cubes)
         {
-            if (explodableObject)
-            {
-                explodableObject.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
-            }
+             explodableObject.Rigidbody.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
         }
     }
 }

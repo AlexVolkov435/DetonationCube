@@ -130,6 +130,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2352411874762615703, guid: 9d3fb9515d7d52e458ef6420230aac46, type: 3}
+      propertyPath: _cube
+      value: 
+      objectReference: {fileID: 1085726793}
     - target: {fileID: 340973969577021067, guid: 9d3fb9515d7d52e458ef6420230aac46, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.6287346
@@ -174,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cube
       objectReference: {fileID: 0}
+    - target: {fileID: 7904245864136686411, guid: 9d3fb9515d7d52e458ef6420230aac46, type: 3}
+      propertyPath: _cube
+      value: 
+      objectReference: {fileID: 1085726793}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -515,6 +523,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1085726793 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7520118479416993195, guid: 9d3fb9515d7d52e458ef6420230aac46, type: 3}
+  m_PrefabInstance: {fileID: 218716822}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad26c67986af5934abd77fce8913db5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1120504034
 GameObject:
   m_ObjectHideFlags: 0
