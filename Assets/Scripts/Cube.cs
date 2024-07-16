@@ -32,6 +32,10 @@ public class Cube : MonoBehaviour
             transform.localScale *= scaleReduction;
             _explosion.Explode(_spawner.CreateCubes(this));
         }
+        else
+        {
+            _explosion.ExplodeAllArea();
+        }
 
         Destroy(gameObject);
     }
